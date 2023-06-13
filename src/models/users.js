@@ -1,13 +1,13 @@
-const mongoose = require('mongoose');
+const mongoose= require('mongoose');
 const mongoosePaginate = require('mongoose-paginate-v2');
 const collectionName = 'user';
 
 const userSchema = new mongoose.Schema ({ 
-    first_name:{
+    f_name:{
         type : String,
         required : [true, 'El nombre es necesario'],
     },
-    las_tName:{
+    l_name:{
         type : String,
         required : [true, 'El apellido es necesario'],
     },
@@ -29,8 +29,6 @@ const userSchema = new mongoose.Schema ({
 
 })
 
-const User = model(collectionName, userSchema.plugin(mongoosePaginate));
+const User = mongoose.model(collectionName, userSchema.plugin(mongoosePaginate));
 
-module.exports = {
-    User
-}
+module.exports = User

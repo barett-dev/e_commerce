@@ -1,8 +1,7 @@
 const mongoose = require('mongoose');
-const mongoosePaginate = require('mongoose-paginate-v2');
-const collectionName = 'product';
+const collectionName = 'cart';
 
-const productSchema = new mongoose.Schema({
+const cartSchema = new mongoose.Schema({
     title:{
         type : String,
         required : [true, 'El titulo es obligatorio']
@@ -32,8 +31,9 @@ const productSchema = new mongoose.Schema({
         type : String,
         required : [true, 'Ingrese la categoria']
     },
-});
 
-const Products = mongoose.model(collectionName, productSchema.plugin(mongoosePaginate));
+})
 
-module.exports = Products;
+const Cart = mongoose.model( collectionName, cartSchema);
+
+module.exports = Cart;

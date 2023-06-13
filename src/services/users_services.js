@@ -1,4 +1,5 @@
-const userStore = require("../store/users.store");
+const userStore = require("../dao/users.dao");
+const bcrypt = require('../utilities/bcrypt')
 
 const get = async () => {
     const users = await userStore.getUsers()
@@ -13,17 +14,33 @@ const usersSort = async ( limit, page ) => {
     return paginate 
 }
 const create = async userInfo => {
-    const passwordHashed = hashPassword(userInfo.password)
-    const newUserInfo = {
-        f_name,
-        l_name,
-        email,
-        password: passwordHashed,
-    };
+    try {        
+        const passwordHashed = await bcrypt.hashPassword(userInfo.password.toString())
+        userInfo.password = passwordHashed
+        console.log(userInfo)
+        const newUser = await userStore.createUser(userInfo);
 
-    const newUser = await userStore.createUser(newUserInfo);
+        return newUser
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-    return newUser
+const updateUser = async (id, item) => {
+    try {
+        const updateItem = await userStore.updateUserDao(id, item)
+        return updateItem
+    } catch (error) {
+    console.log(error)
+    }
+}
+
+const deleteUser = async (id, item) => {
+    try {
+        const deleteUser = await userStore.deleteUserDao(id, item) 
+        return deleteUser
+    } catch {
+    }
 }
 
 module.exports = {
@@ -31,4 +48,6 @@ module.exports = {
     usersSort,
     get,
     getOneUser,
+    updateUser,
+    deleteUser,
 }
